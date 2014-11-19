@@ -1,0 +1,9 @@
+C:\CODE\lgTest\lgTest\bin\Debug\lgTest.dll
+C:\CODE\lgTest\lgTest\bin\Debug\lgTest.pdb
+C:\CODE\lgTest\lgTest\bin\Debug\nunit.framework.dll
+C:\CODE\lgTest\lgTest\bin\Debug\nunit.framework.xml
+C:\CODE\lgTest\lgTest\obj\Debug\lgTest.csprojResolveAssemblyReference.cache
+C:\CODE\lgTest\lgTest\obj\Debug\lgTest.dll
+C:\CODE\lgTest\lgTest\obj\Debug\lgTest.pdb
+C:\CODE\lgTest\lgTest\bin\Debug\Autofac.dll
+C:\CODE\lgTest\lgTest\bin\Debug\Autofac.xml
