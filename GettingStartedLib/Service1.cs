@@ -5,8 +5,9 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 
-namespace Wcf
+namespace GettingStartedLib
 {
+    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
     public class CalculatorService : ICalculator
     {
         public double Add(double n1, double n2)
@@ -41,5 +42,6 @@ namespace Wcf
             Console.WriteLine("Return: {0}", result);
             return result;
         }
+    
     }
 }
