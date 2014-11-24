@@ -32,7 +32,7 @@ namespace GettingStartedHost
                 // Step 5 Start the service.
                 selfHost.Open();
                 Console.WriteLine("The service is ready.");
-                Console.WriteLine("Press <ENTER> or <EXIT> to terminate service.");
+                Console.WriteLine("Press <EXIT> to terminate service.");
                 Console.WriteLine();
                 var x = Console.ReadLine();
                 if (x == "exit")

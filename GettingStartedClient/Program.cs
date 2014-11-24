@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using GettingStartedClient.ServiceReference1;
@@ -11,9 +12,46 @@ namespace GettingStartedClient
     {
         static void Main(string[] args)
         {
+            //Channel Factory Test
+            var httpFactory =
+                new ChannelFactory<ICalculator>(new BasicHttpBinding(), new EndpointAddress("http://localhost:8000/GettingStarted/CalculatorService/"));
+
+            ICalculator httpProxy = httpFactory.CreateChannel();
+
+            Console.WriteLine("***testing***");
+            //var x = httpProxy.Add(1, 2);
+            //Console.WriteLine("http:" + httpProxy.Add(1, 1));
+            //Console.ReadLine();
+
+
             //Step 1: Create an instance of the WCF proxy.
             var client = new CalculatorClient();
 
+            //Step 1.5: louiegor modification
+            Console.WriteLine("press <hi> to start calculation <close> to close program");
+            var temp = Console.ReadLine();
+
+            while (temp != "close")
+            {
+                if (temp == "hi")
+                {
+                    Calculate(client);
+                    Console.WriteLine("press <hi> to start calculation <close> to close program");
+                    temp = Console.ReadLine();
+                }
+
+                else
+                {
+                    Console.WriteLine("press <hi> to start calculation");
+                    temp = Console.ReadLine();
+                }
+            }
+
+            client.Close();
+        }
+
+        public static void Calculate(CalculatorClient client)
+        {
             // Step 2: Call the service operations.
             // Call the Add service operation.
             double value1 = 100.00D;
@@ -38,9 +76,7 @@ namespace GettingStartedClient
             value2 = 7.00D;
             result = client.Divide(value1, value2);
             Console.WriteLine("Divide({0},{1}) = {2}", value1, value2, result);
-
-            //Step 3: Closing the client gracefully closes the connection and cleans up resources.
-            client.Close();
         }
+
     }
 }
