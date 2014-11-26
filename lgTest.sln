@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GettingStartedHost", "Getti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GettingStartedClient", "GettingStartedClient\GettingStartedClient.csproj", "{BB838E21-FFFC-4A82-A3F4-F4E9E07D5D62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventHandler", "EventHandler\EventHandler.csproj", "{CFAEE660-1CF5-4D8B-8AE6-1D22E4E0693E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{BB838E21-FFFC-4A82-A3F4-F4E9E07D5D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB838E21-FFFC-4A82-A3F4-F4E9E07D5D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB838E21-FFFC-4A82-A3F4-F4E9E07D5D62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFAEE660-1CF5-4D8B-8AE6-1D22E4E0693E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFAEE660-1CF5-4D8B-8AE6-1D22E4E0693E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFAEE660-1CF5-4D8B-8AE6-1D22E4E0693E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFAEE660-1CF5-4D8B-8AE6-1D22E4E0693E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

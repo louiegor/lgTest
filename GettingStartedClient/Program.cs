@@ -19,10 +19,6 @@ namespace GettingStartedClient
             ICalculator httpProxy = httpFactory.CreateChannel();
 
             Console.WriteLine("***testing***");
-            //var x = httpProxy.Add(1, 2);
-            //Console.WriteLine("http:" + httpProxy.Add(1, 1));
-            //Console.ReadLine();
-
 
             //Step 1: Create an instance of the WCF proxy.
             var client = new CalculatorClient();
