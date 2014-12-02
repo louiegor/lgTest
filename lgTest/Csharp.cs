@@ -97,5 +97,16 @@ namespace lgTest
             Assert.NotNull(member2.GetRank);
         }
 
+        [Test]
+        public void Contains()
+        {
+            var listInt = new List<int>{1,2,3};
+            const int num = 3;
+            const int num2 = 4;
+
+            Assert.IsTrue(listInt.Contains(num));
+            Assert.IsFalse(listInt.Contains(num2));
+        }
+
     }
 }
