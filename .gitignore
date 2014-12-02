@@ -3,3 +3,4 @@
 */obj/
 *.log
 _ReSharper.*/
+*.suo
