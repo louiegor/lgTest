@@ -15,7 +15,7 @@ namespace FileMonitor
 
         private static FileSystemWatcher watcher;
 
-        private const string Path = @"c:\CODE\louieGor.txt";
+        private const string Path = @"c:\CODE\lgTest\louieGor.txt";
 
         private static void Watch()
         {
