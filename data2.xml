@@ -1,0 +1,7 @@
+<root>
+    <level1 symbol="A" open="1.5" high="2" low="1" close="1.7">
+    </level1>
+
+    <level1 symbol="b" open="2.5" high="3" low="2" close="2.3">
+    </level1>
+</root>
