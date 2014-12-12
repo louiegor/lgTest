@@ -83,7 +83,6 @@ namespace Events
             observable.SaidSomething += observer.HandleEvent;
 
             observable.DoSomething();
-            observable.DoSomething();
             observable.SaySomething();
             Console.ReadLine();
         }
