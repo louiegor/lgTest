@@ -108,5 +108,21 @@ namespace lgTest
             Assert.IsFalse(listInt.Contains(num2));
         }
 
+
+        public string InputMethod(int input = 0)
+        {
+            if (input == 0) return "no input";
+            if (input != 0) return String.Format("input is {0}", input);
+            return "";
+        }
+
+        [Test]
+        public void TestInputMethod()
+        {
+            var x = InputMethod();
+            var y = InputMethod(1);
+            Assert.AreEqual(x, "no input");
+            Assert.AreEqual(y, "input is 1");
+        }
     }
 }
