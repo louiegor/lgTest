@@ -10,17 +10,20 @@ namespace FileMonitor
         private static void Main(string[] args)
         {
             Watch();
+            string mydocPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+ @"\Interactive Data\FormulaOutput\";
+            Console.WriteLine(mydocPath);
             Console.ReadLine();
         }
 
         private static FileSystemWatcher watcher;
-        private const string DirPath = @"c:\CODE\lgTest\";
+
+        private static readonly string DirPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+ @"\Interactive Data\FormulaOutput\";
 
         private static void Watch()
         {
             watcher = new FileSystemWatcher
                           {
-                              Path = @"c:\CODE\lgTest\",
+                              Path = DirPath,
                               NotifyFilter = NotifyFilters.LastWrite
                                              | NotifyFilters.FileName | NotifyFilters.DirectoryName,
                               Filter = "*.*"
@@ -46,8 +49,6 @@ namespace FileMonitor
                 Console.WriteLine("{0}", line);
                 Console.WriteLine();
             }
-            //Console.WriteLine("The files has been changed");
-
             lastRead = lastWriteTime;
         }
 
