@@ -133,26 +133,13 @@ namespace LinqToXml
         }
 
         [Test]
-        public void testYahooXml()
+        public void TestYahooXml()
         {
             var url =
                 "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22nome%2C%20ak%22)&format=xml&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
 
            
             var temp = GetXmlDataFromUrl(url);
-
-            
-            //var lv1S = temp.
-                //.Descendants("results")
-                //           .Select(x => new
-                //           {
-                //               Symbol = x.Attribute("symbol").Value,
-                //               Open = x.Attribute("open").Value,
-                //               High = x.Attribute("high").Value,
-                //               Low = x.Attribute("low").Value,
-                //               Close = x.Attribute("close").Value,
-                //           }).ToList();
-
             Assert.NotNull(temp);
         }
        
