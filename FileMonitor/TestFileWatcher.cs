@@ -13,7 +13,7 @@ namespace FileMonitor
     public class TestFileWatcher
     {
         Program fileWatcher = new Program();
-
+        //private const string DirectoryPath = @"C:\Users\louiegor\Documents\Interactive Data\FormulaOutput";
         private const string DirectoryPath = @"c:\CODE\lgTest\testDirectory";
         private string filePath = DirectoryPath + "\\test.txt";
 
@@ -24,8 +24,7 @@ namespace FileMonitor
             //if the directory path does not exist, create it
             if (!Directory.Exists(DirectoryPath))
             {
-                //DirectoryInfo
-                  DirectoryInfo  di = Directory.CreateDirectory(DirectoryPath);
+                DirectoryInfo  di = Directory.CreateDirectory(DirectoryPath);
                 Console.ReadLine();
             }
             
@@ -61,7 +60,6 @@ namespace FileMonitor
         {
             watcher = new FileSystemWatcher
             {
-                //Path = @"C:\Users\louiegor\Documents\Interactive Data\FormulaOutput",
                 Path = DirectoryPath,
                 NotifyFilter = NotifyFilters.LastWrite
                                | NotifyFilters.FileName |

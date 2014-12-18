@@ -10,14 +10,14 @@ namespace FileMonitor
         private static void Main(string[] args)
         {
             Watch();
-            string mydocPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+ @"\Interactive Data\FormulaOutput\";
+            string mydocPath = DirPath;
             Console.WriteLine(mydocPath);
             Console.ReadLine();
         }
 
         private static FileSystemWatcher watcher;
 
-        private static readonly string DirPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+ @"\Interactive Data\FormulaOutput\";
+        private static readonly string DirPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);//+ @"\Interactive Data\FormulaOutput\";
 
         private static void Watch()
         {
