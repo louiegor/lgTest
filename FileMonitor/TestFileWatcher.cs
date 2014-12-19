@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using NUnit.Framework;
 
 namespace FileMonitor
@@ -12,6 +13,7 @@ namespace FileMonitor
     [TestFixture]
     public class TestFileWatcher
     {
+        XmlHelper xmlHelper = new XmlHelper();
         Program fileWatcher = new Program();
         //private const string DirectoryPath = @"C:\Users\louiegor\Documents\Interactive Data\FormulaOutput";
         private const string DirectoryPath = @"c:\CODE\lgTest\testDirectory";
@@ -81,6 +83,48 @@ namespace FileMonitor
                 Console.WriteLine("Something created");
 
             lastRead = lastWriteTime;
+        }
+
+
+        [Test]
+        public void TestYahooXml()
+        {
+            var url =
+                "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22nome%2C%20ak%22)&format=xml&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+
+
+            var temp = xmlHelper.GetXmlDataFromUrl(url);
+            Assert.NotNull(temp);
+        }
+
+        [Test]
+        public void StockXmlTest2(string xmlFilePath = @"c:\code\lgtest\7203JP.xml")
+        {
+            XDocument xdoc = XDocument.Load(xmlFilePath);
+
+            var lv1S = xdoc.Descendants("Level1Data")
+                           .Select(x => new
+                           {
+                               Symbol = x.Attribute("Symbol").Value,
+                               Open = x.Attribute("BidSize").Value,
+                               High = x.Attribute("AskSize").Value,
+                               Low = x.Attribute("BidSize").Value,
+                               Close = x.Attribute("AskSize").Value,
+                               MarketTime = Convert.ToDateTime(x.Attribute("MarketTime").Value)
+                           }).ToList();
+
+            var current = lv1S.FirstOrDefault();
+
+            Assert.IsNotNull(current);
+        }
+
+        [Test]
+        public void testing()
+        {
+            
+            var x = xmlHelper.Buy("9501.JP", 420);
+            var y = xmlHelper.ExecuteOrder();
+            var z = xmlHelper.OpenPositionForSymbol("9501.JP");
         }
     }
 }

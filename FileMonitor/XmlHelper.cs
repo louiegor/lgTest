@@ -6,32 +6,31 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using NUnit.Framework;
 
 namespace FileMonitor
 {
+
     public class XmlHelper
     {
-        private string Symbol { get; set; }
-        private string OrderNumber { get; set; }
-        private string UserName { get; set; }
-        private string Price { get; set; }
+        public string Symbol { get; set; }
+        public string OrderNumber { get; set; }
+        public string UserName { get; set; }
+        public string Price { get; set; }
+
         private string L1RegisterPath { get { return String.Format("http://localhost:8080/Register?symbol={0}&feedtype=L1&output=bykey", Symbol); } }
         private string OstatRegisterPath { get { return String.Format("http://localhost:8080/Register?region=3&feedtype=OSTAT&output=bytype"); } }
         private string PapiRegisterPath { get { return String.Format("http://localhost:8080/Register?region=3&feedtype=PAPIORDER&output=bytype"); } }
         private string GetL1Path { get { return String.Format("http://localhost:8080/GetLv1?symbol={0}", Symbol); } }
-        private string ExecuteBuyJapnOrderPath { get { return String.Format("http://localhost:8080/ExecuteOrder?symbol={0}&limitprice={1}&ordername=JAPN%20Buy%20TSE%20Limit%20DAY&shares=100", Symbol, Price); } }
-        private string GetOrderStatePath { get { return String.Format("http://localhost:8080/GetOrderState?ordernumber={0}", OrderNumber); } }
-        private string GetOpenPostionsPath { get { return String.Format("http://localhost:8080/GetOpenPositions?user={0}&symbol={1}", UserName, Symbol); } }
-        private string FlattenPath { get { return String.Format("http://localhost:8080/Flatten?symbol={0}", Symbol); } }
-        private string CancelBuyOrderPath { get { return String.Format("http://localhost:8080/CancelOrder?type=all&symbol={0}&side=bid", Symbol); } }
+
+        private string GetOpenOrderPath { get { return String.Format("http://localhost:8080/GetOpenOrders?user={0}", UserName); } } 
+        
+        
 
         public void RegisterAll()
         {
-            var regList = new List<string>();
-            regList.Add(L1RegisterPath);
-            regList.Add(OstatRegisterPath);
-            regList.Add(PapiRegisterPath);
+            var regList = new List<string> {L1RegisterPath, OstatRegisterPath, PapiRegisterPath};
 
             foreach (var item in regList)
             {
@@ -39,73 +38,132 @@ namespace FileMonitor
             }
         }
 
-        public void GetL1(string url)
+        public void CancelSellOrdersForSymbol(string symbol)
+        {
+            var xmlPath = String.Format("http://localhost:8080/CancelOrder?type=all&symbol={0}&side=ask", symbol);
+            var xdoc = GetXmlDataFromUrl(xmlPath);
+            var x = xdoc.XPathSelectElements("//Content").Single().Value;
+        }
+
+        public void CancelBuyOrdersForSymbol(string symbol)
+        {
+            var xmlPath = String.Format("http://localhost:8080/CancelOrder?type=all&symbol={0}&side=bid", symbol);
+            var xdoc = GetXmlDataFromUrl(xmlPath);
+            var x = xdoc.XPathSelectElements("//Content").Single().Value;
+        }
+
+        public void FlattenSymbol (string symbol)
+        {
+            var xmlPath  = String.Format("http://localhost:8080/Flatten?symbol={0}", symbol);
+            var xdoc = GetXmlDataFromUrl(xmlPath);
+            var x = xdoc.XPathSelectElements("//Content").Single().Value;
+
+        }
+
+        public OpenPosition OpenPositionForSymbol(string symbol)
+        {
+            //var xmlPath = String.Format("http://localhost:8080/GetOpenPositions?user={0}&symbol={1}", UserName, symbol);
+            //var xdoc = GetXmlDataFromUrl(xmlPath);
+
+            const string xmlexecId = @"C:\CODE\lgTest\PproXml\8GetOpenPositions.xml";//debug
+            XDocument xdoc = XDocument.Load(xmlexecId);//debug
+
+            var oPositions = xdoc.Descendants("Position")
+                .Select(x => new OpenPosition
+                                 {
+                                     Symbol = x.Attribute("Symbol").Value,
+                                     Market = x.Attribute("Market").Value,
+                                     Volume = Int32.Parse(x.Attribute("Volume").Value),
+                                     Side = x.Attribute("Side").Value,
+
+                                 })
+                .ToList();
+            
+            var o = oPositions.FirstOrDefault(x => x.Symbol == symbol.Split('.').ToArray()[0]);
+            
+            return o;
+        }
+
+        public string ExecuteOrder(string side, string symbol, int price, int shares = 100)
+        {
+            var execPath = side == "Buy" ? Buy(symbol, price, shares) : Sell(symbol, price, shares);
+            
+            //var xdoc = GetXmlDataFromUrl(execPath);
+            const string xmlexecId = @"C:\CODE\lgTest\PproXml\5ExecuteOrder.xml";//debug
+            XDocument xdoc = XDocument.Load(xmlexecId);//debug
+            var execId = xdoc.XPathSelectElements("//Content").FirstOrDefault();
+
+
+            //var xdoc2 = GetXmlDataFromUrl(String.Format("http://localhost:8080/GetOrderState?ordernumber={0}", execId));
+            const string xmlOrder = @"C:\CODE\lgTest\PproXml\6GetOrderNumber.xml";//debug
+            XDocument xdoc2 = XDocument.Load(xmlOrder);//debug
+            var orderNum = xdoc2.XPathSelectElements("//Content").Single().Value;
+
+            return orderNum;
+        }
+
+        public string Buy(string symbol, int price, int shares = 100)
+        {
+            var country = symbol.Split('.').ToArray()[1];
+
+            if (country == "JP")
+            {
+                return String.Format(
+                    "http://localhost:8080/ExecuteOrder?symbol={0}&limitprice={1}&ordername=JAPN Buy TSE Limit DAY&shares={2}",
+                    symbol, price, shares);
+            }
+
+            throw new NotSupportedException("The symbol is not supported");
+        }
+
+        public string Sell(string symbol, int price, int shares = 100)
+        {
+            var country = symbol.Split(',')[1];
+
+            if (country == "JP")
+            {
+                return String.Format(
+                    "http://localhost:8080/ExecuteOrder?symbol={0}&limitprice={1}&ordername=JAPN Sell->Short TSE Limit DAY&shares={2}",
+                    symbol, price, shares);
+            }
+
+            throw new NotSupportedException("The symbol is not supported");
+        }
+
+        public Lv1Quote GetL1(string url)
         {
             var xdoc = GetXmlDataFromUrl(GetL1Path);
             
             var lv1S = xdoc.Descendants("Level1Data")
-               .Select(x => new
+               .Select(x => new Lv1Quote
                {
                    Symbol = x.Attribute("Symbol").Value,
-                   Open = x.Attribute("BidSize").Value,
-                   High = x.Attribute("AskSize").Value,
-                   Low = x.Attribute("BidSize").Value,
-                   Close = x.Attribute("AskSize").Value,
+                   Open = Int32.Parse(x.Attribute("BidSize").Value),
+                   High = Int32.Parse(x.Attribute("AskSize").Value),
+                   Low = Int32.Parse(x.Attribute("BidSize").Value),
+                   Close = Int32.Parse(x.Attribute("AskSize").Value),
                    MarketTime = Convert.ToDateTime(x.Attribute("MarketTime").Value)
                }).ToList();
 
             var current = lv1S.FirstOrDefault();
+            return current;
         }
 
         public XDocument GetXmlDataFromUrl(string url)
         {
-            //requesting the particular web page
             var httpRequest = (HttpWebRequest)WebRequest.Create(url);
 
-            //geting the response from the request url
             var response = (HttpWebResponse)httpRequest.GetResponse();
 
-            //create a stream to hold the contents of the response (in this case it is the contents of the XML file
             var receiveStream = response.GetResponseStream();
 
             using (XmlReader reader = XmlReader.Create(receiveStream))
             {
-                return XDocument.Load(reader);
+                var x =  XDocument.Load(reader);
+                return x;
             }
 
         }
-
-
-        [Test]
-        public void TestYahooXml()
-        {
-            var url =
-                "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22nome%2C%20ak%22)&format=xml&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
-
-
-            var temp = GetXmlDataFromUrl(url);
-            Assert.NotNull(temp);
-        }
-
-        public void StockXmlTest2(string xmlFilePath = @"c:\code\lgtest\7203JP.xml")
-        {
-            XDocument xdoc = XDocument.Load(xmlFilePath);
-
-            var lv1S = xdoc.Descendants("Level1Data")
-                           .Select(x => new
-                           {
-                               Symbol = x.Attribute("Symbol").Value,
-                               Open = x.Attribute("BidSize").Value,
-                               High = x.Attribute("AskSize").Value,
-                               Low = x.Attribute("BidSize").Value,
-                               Close = x.Attribute("AskSize").Value,
-                               MarketTime = Convert.ToDateTime(x.Attribute("MarketTime").Value)
-                           }).ToList();
-
-            var current = lv1S.FirstOrDefault();
-
-            Assert.IsNotNull(current);
-        }
-
+        
     }
 }
