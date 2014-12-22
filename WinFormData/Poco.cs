@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
 
 namespace WinFormData
 {
     public class Lv1Quote
     {
         public string Symbol { get; set; }
-        public int Open { get; set; }
-        public int High { get; set; }
-        public int Low { get; set; }
-        public int Close { get; set; }
+        public int BidPrice { get; set; }
+        public int BidSize { get; set; }
+        public int AskPrice { get; set; }
+        public int AskSize { get; set; }
         public DateTime MarketTime { get; set; }
     }
 
@@ -25,12 +20,19 @@ namespace WinFormData
         public string Side { get; set; }
     }
 
-    public static class Global
+    static class Global
     {
         public static string TraderId { get; set; }
         public static string PproPath { get; set; }
         public static string EsignalPath { get; set; }
+        public static int ShareSize { get; set; }
     }
+
+    public class Symbol
+    {
+        public string Name { get; set; }
+    }
+
 
     public class Chrome: MainModel.Site
     {

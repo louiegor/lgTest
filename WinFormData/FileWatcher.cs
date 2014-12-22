@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
 
 namespace WinFormData
 {
     public class FileWatcher
     {
-        XmlHelper xmlHelper = new XmlHelper();
+        private static MainModel model = new MainModel();
         private static FileSystemWatcher watcher;
-        
-        //private const string DirectoryPath = @"C:\Users\louiegor\Documents\Interactive Data\FormulaOutput";
-        private const string DirectoryPath = @"c:\CODE\lgTest\testDirectory";
+        //private const string DirectoryPath = @"c:\CODE\lgTest\testDirectory";
         private static readonly string DirPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)+ @"\Interactive Data\FormulaOutput\";
         
         public string GetEsignalPath()
@@ -23,7 +17,7 @@ namespace WinFormData
             return DirPath;
         }
 
-        private static void Watch()
+        public void Watch()
         {
             watcher = new FileSystemWatcher
             {
@@ -50,8 +44,8 @@ namespace WinFormData
             {
                 //Check Orders
                 position = "Buy";
+                model.ExecuteBuyOrder(name);
                 //Check Positions for specify symbol
-
             }
 
             if (line == "0")
@@ -63,15 +57,12 @@ namespace WinFormData
             {
                 position = "Sell";
             }
-
-
+            
             //Workaround for firing twice: http://stackoverflow.com/a/3042963
             var lastWriteTime = File.GetLastWriteTime(e.FullPath);
             if (lastWriteTime != lastRead)
             {
-                //Console.WriteLine("{0} has been changed", name);
-                Console.WriteLine("Execute {0} for {1}", position, name);
-                Console.WriteLine();
+                Form1.Form1Edit.SetText(String.Format("Execute {0} for {1}", position, name));
             }
             lastRead = lastWriteTime;
         }
@@ -80,11 +71,8 @@ namespace WinFormData
         {
             string text;
             var browser = new Chrome();
-            
             var httpRequest = (HttpWebRequest)WebRequest.Create(browser.Uri);
-
             var response = (HttpWebResponse)httpRequest.GetResponse();
-
             var receiveStream = response.GetResponseStream();
 
             using (var reader = new StreamReader(receiveStream, Encoding.UTF8))

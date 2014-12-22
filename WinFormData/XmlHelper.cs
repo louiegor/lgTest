@@ -26,22 +26,21 @@ namespace WinFormData
     {
         public string Symbol { get; set; }
         public string OrderNumber { get; set; }
-        public string UserName { get; set; }
         public string Price { get; set; }
 
-        private string L1RegisterPath { get { return String.Format("http://localhost:8080/Register?symbol={0}&feedtype=L1&output=bykey", Symbol); } }
-        private string OstatRegisterPath { get { return String.Format("http://localhost:8080/Register?region=3&feedtype=OSTAT&output=bytype"); } }
-        private string PapiRegisterPath { get { return String.Format("http://localhost:8080/Register?region=3&feedtype=PAPIORDER&output=bytype"); } }
+        
         private string GetL1Path { get { return String.Format("http://localhost:8080/GetLv1?symbol={0}", Symbol); } }
 
-        private string GetOpenOrderPath { get { return String.Format("http://localhost:8080/GetOpenOrders?user={0}", UserName); } } 
-        
-        
+        private string GetOpenOrderPath { get { return String.Format("http://localhost:8080/GetOpenOrders?user={0}", Global.TraderId); } }
 
         public void RegisterAll()
         {
-            var regList = new List<string> {L1RegisterPath, OstatRegisterPath, PapiRegisterPath};
+            string l1RegisterPath = String.Format("http://localhost:8080/Register?symbol={0}&feedtype=L1&output=bykey",Symbol);
+            string ostatRegisterPath = String.Format("http://localhost:8080/Register?region=3&feedtype=OSTAT&output=bytype");
+            string papiRegisterPath = String.Format("http://localhost:8080/Register?region=3&feedtype=PAPIORDER&output=bytype");
 
+            var regList = new List<string> {l1RegisterPath, ostatRegisterPath, papiRegisterPath};
+            
             foreach (var item in regList)
             {
                 GetXmlDataFromUrl(item);
@@ -72,7 +71,7 @@ namespace WinFormData
 
         public OpenPosition GetOpenPositionForSymbol(string symbol)
         {
-            //var xmlPath = String.Format("http://localhost:8080/GetOpenPositions?user={0}&symbol={1}", UserName, symbol);
+            //var xmlPath = String.Format("http://localhost:8080/GetOpenPositions?user={0}&symbol={1}", Global.TraderId, symbol);
             //var xdoc = GetXmlDataFromUrl(xmlPath);
 
             const string xmlexecId = @"C:\CODE\lgTest\PproXml\8GetOpenPositions.xml";//debug
@@ -140,18 +139,19 @@ namespace WinFormData
             throw new NotSupportedException("The symbol is not supported");
         }
 
-        public Lv1Quote GetL1(string url)
+        public Lv1Quote GetL1(string symbol)
         {
-            var xdoc = GetXmlDataFromUrl(GetL1Path);
+            string getL1Path=String.Format("http://localhost:8080/GetLv1?symbol={0}", Symbol); 
+            var xdoc = GetXmlDataFromUrl(getL1Path);
             
             var lv1S = xdoc.Descendants("Level1Data")
                .Select(x => new Lv1Quote
-               {
+               { 
                    Symbol = x.Attribute("Symbol").Value,
-                   Open = Int32.Parse(x.Attribute("BidSize").Value),
-                   High = Int32.Parse(x.Attribute("AskSize").Value),
-                   Low = Int32.Parse(x.Attribute("BidSize").Value),
-                   Close = Int32.Parse(x.Attribute("AskSize").Value),
+                   BidPrice = Int32.Parse(x.Attribute("BidPrice").Value),
+                   AskPrice = Int32.Parse(x.Attribute("AskPrice").Value),
+                   BidSize = Int32.Parse(x.Attribute("BidSize").Value),
+                   AskSize = Int32.Parse(x.Attribute("AskSize").Value),
                    MarketTime = Convert.ToDateTime(x.Attribute("MarketTime").Value)
                }).ToList();
 
@@ -161,19 +161,27 @@ namespace WinFormData
 
         public XDocument GetXmlDataFromUrl(string url)
         {
-            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
-
-            var response = (HttpWebResponse)httpRequest.GetResponse();
-
-            var receiveStream = response.GetResponseStream();
-
-            using (XmlReader reader = XmlReader.Create(receiveStream))
+            try
             {
-                var x =  XDocument.Load(reader);
-                return x;
-            }
+                var httpRequest = (HttpWebRequest) WebRequest.Create(url);
 
+                var response = (HttpWebResponse) httpRequest.GetResponse();
+
+                var receiveStream = response.GetResponseStream();
+
+                using (XmlReader reader = XmlReader.Create(receiveStream))
+                {
+                    var x = XDocument.Load(reader);
+                    return x;
+                }
+            }catch(Exception e)
+            {
+                Form1.Form1Edit.SetText(e.Message);
+                return new XDocument();
+            }
         }
+        
+  
         
     }
 }

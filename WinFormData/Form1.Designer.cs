@@ -45,12 +45,12 @@
             this.label4 = new System.Windows.Forms.Label();
             this.univShareSize = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.apiSymbol = new System.Windows.Forms.TextBox();
-            this.apiBuy = new System.Windows.Forms.Button();
-            this.apiSell = new System.Windows.Forms.Button();
             this.apiSize = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.apiSell = new System.Windows.Forms.Button();
+            this.apiBuy = new System.Windows.Forms.Button();
+            this.apiSymbol = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.pproPath = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.OrderGridView)).BeginInit();
@@ -114,6 +114,7 @@
             this.startButton.TabIndex = 4;
             this.startButton.Text = "Start";
             this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
             // stopButton
             // 
@@ -207,40 +208,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Fake API Execution Test";
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(14, 22);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 13);
-            this.label5.TabIndex = 15;
-            this.label5.Text = "Symbol";
-            // 
-            // apiSymbol
-            // 
-            this.apiSymbol.Location = new System.Drawing.Point(61, 19);
-            this.apiSymbol.Name = "apiSymbol";
-            this.apiSymbol.Size = new System.Drawing.Size(111, 20);
-            this.apiSymbol.TabIndex = 15;
-            // 
-            // apiBuy
-            // 
-            this.apiBuy.Location = new System.Drawing.Point(195, 45);
-            this.apiBuy.Name = "apiBuy";
-            this.apiBuy.Size = new System.Drawing.Size(75, 23);
-            this.apiBuy.TabIndex = 16;
-            this.apiBuy.Text = "Market Buy";
-            this.apiBuy.UseVisualStyleBackColor = true;
-            // 
-            // apiSell
-            // 
-            this.apiSell.Location = new System.Drawing.Point(276, 45);
-            this.apiSell.Name = "apiSell";
-            this.apiSell.Size = new System.Drawing.Size(75, 23);
-            this.apiSell.TabIndex = 17;
-            this.apiSell.Text = "Market Sell";
-            this.apiSell.UseVisualStyleBackColor = true;
-            // 
             // apiSize
             // 
             this.apiSize.Location = new System.Drawing.Point(255, 19);
@@ -257,6 +224,40 @@
             this.label6.Size = new System.Drawing.Size(27, 13);
             this.label6.TabIndex = 18;
             this.label6.Text = "Size";
+            // 
+            // apiSell
+            // 
+            this.apiSell.Location = new System.Drawing.Point(276, 45);
+            this.apiSell.Name = "apiSell";
+            this.apiSell.Size = new System.Drawing.Size(75, 23);
+            this.apiSell.TabIndex = 17;
+            this.apiSell.Text = "Market Sell";
+            this.apiSell.UseVisualStyleBackColor = true;
+            // 
+            // apiBuy
+            // 
+            this.apiBuy.Location = new System.Drawing.Point(195, 45);
+            this.apiBuy.Name = "apiBuy";
+            this.apiBuy.Size = new System.Drawing.Size(75, 23);
+            this.apiBuy.TabIndex = 16;
+            this.apiBuy.Text = "Market Buy";
+            this.apiBuy.UseVisualStyleBackColor = true;
+            // 
+            // apiSymbol
+            // 
+            this.apiSymbol.Location = new System.Drawing.Point(61, 19);
+            this.apiSymbol.Name = "apiSymbol";
+            this.apiSymbol.Size = new System.Drawing.Size(111, 20);
+            this.apiSymbol.TabIndex = 15;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(14, 22);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 13);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "Symbol";
             // 
             // pproPath
             // 
