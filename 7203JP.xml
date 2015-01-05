@@ -1,5 +1,0 @@
-<Response>
-<Content>
-<Level1Data Message="L1DB" MarketTime="13:35:30.302" Symbol="7203.JP" BidPrice="7858" AskPrice="7859" BidSize="700" AskSize="1700" Volume="7435100" LowPrice="7741" HighPrice="7909" OpenPrice="0" ClosePrice="0" MaxPermittedPrice="0" MinPermittedPrice="0" LotSize="100" LastPrice="7858" InstrumentState="Open" AssetClass="Equity" TickValue="0" TickSize="1" Currency="JPY" Tick="?"/>
-</Content>
-</Response>

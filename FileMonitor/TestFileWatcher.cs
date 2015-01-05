@@ -118,13 +118,6 @@ namespace FileMonitor
             Assert.IsNotNull(current);
         }
 
-        [Test]
-        public void testing()
-        {
-            
-            var x = xmlHelper.Buy("9501.JP", 420);
-            var y = xmlHelper.ExecuteOrder();
-            var z = xmlHelper.OpenPositionForSymbol("9501.JP");
-        }
+
     }
 }
