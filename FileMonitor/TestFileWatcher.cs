@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -85,6 +86,30 @@ namespace FileMonitor
             lastRead = lastWriteTime;
         }
 
+        [Test]
+        public void SiteGoogleTest()
+        {
+
+            string text;
+            const string url = "https://sites.google.com/site/louiegor/";
+
+            var httpRequest = (HttpWebRequest) WebRequest.Create(url);
+
+            var response = (HttpWebResponse) httpRequest.GetResponse();
+
+            var receiveStream = response.GetResponseStream();
+
+            using (var reader = new StreamReader(receiveStream, Encoding.UTF8))
+            {
+                text = reader.ReadToEnd();
+            }
+
+            int first = text.IndexOf("@A@", StringComparison.Ordinal) + "@B@".Length;
+            int last = text.LastIndexOf("@B@", StringComparison.Ordinal);
+            string title = text.Substring(first, last - first);
+            Assert.AreEqual(title,"louiegor");
+
+        }
 
         [Test]
         public void TestYahooXml()
@@ -119,5 +144,9 @@ namespace FileMonitor
         }
 
 
+
+
     }
+
+
 }
