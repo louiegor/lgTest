@@ -189,9 +189,9 @@ namespace lgTest
                             Name = "Zoo2",
                             Animals = new List<IAnimal>
                                 {
-                                    new Human{Name = "louiegor"},
-                                    new Dog{Name = "Crazy Dog"},
-                                    new Cat{Name = "Super Kitty Cat"}
+                                    new Human {Name = "louiegor"},
+                                    new Dog {Name = "Crazy Dog"},
+                                    new Cat {Name = "Super Kitty Cat"}
                                 }
                         }
                 };
@@ -205,9 +205,9 @@ namespace lgTest
                         ZooName = x.Zoo.Name,
                         AnimalName = x.Animal.Name
                     }).ToList();
-               
-            Assert.AreEqual(complexAnimal.Count(),6);
-            Assert.AreEqual(animalName.Count(),6);
+
+            Assert.AreEqual(complexAnimal.Count(), 6);
+            Assert.AreEqual(animalName.Count(), 6);
         }
 
         public class CustomList

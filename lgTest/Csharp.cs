@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using NUnit.Framework;
 
 namespace lgTest
@@ -123,6 +124,33 @@ namespace lgTest
             var y = InputMethod(1);
             Assert.AreEqual(x, "no input");
             Assert.AreEqual(y, "input is 1");
+        }
+
+        
+        [Test]
+        public void ThreadAndTimerTest()
+        {
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                TestTimer();
+            }).Start();
+
+            Thread.Sleep(10000);
+        }
+
+
+        public void TestTimer()
+        {
+            var now  = DateTime.Now;
+            var someTimeAfter = now.AddMinutes(1.5);
+            while (now < someTimeAfter)
+            {
+                now = DateTime.Now;
+                Console.WriteLine(now);
+                Thread.Sleep(5000);
+            }
+
         }
     }
 }

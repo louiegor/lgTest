@@ -1,0 +1,26 @@
+{
+  "IndexId": 2,
+  "Name": "Auto/Menus/ByName",
+  "LockMode": "Unlock",
+  "Map": "from doc in docs.Menus\nselect new {\n\tName = doc.Name\n}",
+  "Maps": [
+    "from doc in docs.Menus\nselect new {\n\tName = doc.Name\n}"
+  ],
+  "Reduce": null,
+  "IsMapReduce": false,
+  "IsCompiled": false,
+  "Stores": {},
+  "Indexes": {},
+  "SortOptions": {},
+  "Analyzers": {},
+  "Fields": [],
+  "Suggestions": {},
+  "TermVectors": {},
+  "SpatialIndexes": {},
+  "InternalFieldsMapping": {
+    "Name": "Name"
+  },
+  "MaxIndexOutputsPerDocument": null,
+  "Type": "Auto",
+  "DisableInMemoryIndexing": false
+}
