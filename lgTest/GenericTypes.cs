@@ -284,5 +284,30 @@ namespace lgTest
             const string jAin = "sashihara rino";
             Console.WriteLine(jAin);
         }
+
+        [Test]
+        public void GenericTest()
+        {
+            var main = new Main();
+            var listOfAnimals = main.Get10Animals(false);
+
+            foreach (var a in listOfAnimals)
+            {
+                var aType = a.GetType();
+
+                if (aType == typeof (Dog))
+                {
+                    Console.WriteLine(string.Format("{0} is a dog",a.Name));
+                }
+                else if (aType == typeof (Cat))
+                {
+                    Console.WriteLine(string.Format("{0} is a cat", a.Name));
+                }
+            }
+
+            Console.ReadLine();
+
+
+        }
     }
 }

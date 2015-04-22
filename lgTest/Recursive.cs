@@ -125,56 +125,62 @@ namespace lgTest
         {
             var result = new List<Task>();
             var task1 = new Task
-            {
-                IsSummary = true,
-                Wbs = "1",
-                Sequence = 1,
-                Description = "Top"
-            };
+                {
+                    IsSummary = true,
+                    Wbs = "1",
+                    Sequence = 1,
+                    Description = "Top"
+                };
             var task2 = new Task
-            {
-                IsSummary = false,
-                Wbs = "1.1",
-                Sequence = 2,
-                ParentTask = task1
-            };
+                {
+                    IsSummary = false,
+                    Wbs = "1.1",
+                    Sequence = 2,
+                    ParentTask = task1
+                };
             var task3 = new Task
-            {
-                IsSummary = false,
-                Wbs = "1.2",
-                Sequence = 3,
-                ParentTask = task1
-            };
+                {
+                    IsSummary = false,
+                    Wbs = "1.2",
+                    Sequence = 3,
+                    ParentTask = task1
+                };
             var task4 = new Task
-            {
-                IsSummary = true,
-                Wbs = "1.3",
-                Sequence = 4,
-                ParentTask = task1
-            };
+                {
+                    IsSummary = true,
+                    Wbs = "1.3",
+                    Sequence = 4,
+                    ParentTask = task1
+                };
             var task5 = new Task
-            {
-                IsSummary = false,
-                Wbs = "1.3.1",
-                Sequence = 5,
-                ParentTask = task4
-            };
+                {
+                    IsSummary = false,
+                    Wbs = "1.3.1",
+                    Sequence = 5,
+                    ParentTask = task4
+                };
             var task6 = new Task
-            {
-                IsSummary = false,
-                Wbs = "1.3.2",
-                Sequence = 6,
-                ParentTask = task4
-            };
+                {
+                    IsSummary = false,
+                    Wbs = "1.3.2",
+                    Sequence = 6,
+                    ParentTask = task4
+                };
             var task7 = new Task
-            {
-                IsSummary = true,
-                Wbs = "2",
-                Sequence = 7,
+                {
+                    IsSummary = true,
+                    Wbs = "2",
+                    Sequence = 7,
+                };
+            var task8 = new Task
+                {
+                    IsSummary = false,
+                    Wbs = "3",
+                    Sequence = 8,
+                };
 
-            };
 
-            result.AddRange(new List<Task>{task1,task2,task3,task4,task5,task6,task7});
+            result.AddRange(new List<Task> {task1, task2, task3, task4, task5, task6, task7, task8});
             return result;
         }
 
